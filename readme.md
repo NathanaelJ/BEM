@@ -28,10 +28,10 @@ Blade element solver developed based on [QBlade](http://www.q-blade.de) code; co
     - foils.files must be a character array of the aerofoil polar filenames (.dat)
     - foils.plots must be a character array of the aerofoil geometry filenames (.txt)
 
-    * The aerofoil polars (foils.files) must be of the format  | aoa | Cl | Cd |  with angles of attack between -180 and + 180 degrees where possible. Polars with a smaller range of angles than this may lead to errors. If multiple polars are defined, they **must** be of the same length to avoid errors
-    * The aerofoil geometry (foils.plots) must be of the Selig format (see [airfoiltools](http://www.airfoiltools.com)); it can be useful if the files each contain the same number of points
-    * Note that choice of 'delta' can have an affect on convergence for some optimisation functions.
-    * 'QBladeAerofoil.dat' and 'SG6043.txt' are sample files using the SG6043 aerofoil.
+    - *The aerofoil polars (foils.files) must be of the format  | aoa | Cl | Cd |  with angles of attack between -180 and + 180 degrees where possible. Polars with a smaller range of angles than this may lead to errors. If multiple polars are defined, they **must** be of the same length to avoid errors*
+    - *The aerofoil geometry (foils.plots) must be of the Selig format (see [airfoiltools](http://www.airfoiltools.com)); it can be useful if the files each contain the same number of points*
+    - *Note that choice of 'delta' can have an affect on convergence for some optimisation functions.*
+    - '*QBladeAerofoil.dat' and 'SG6043.txt' are sample files using the SG6043 aerofoil.*
  
 2. Start a parallel computing pool (this requires the parallel computing toolbox). You will also need to curve fitting toolbox
 
