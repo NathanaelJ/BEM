@@ -15,11 +15,6 @@ def run(context):
         design = adsk.fusion.Design.cast(product)
         rootComp = design.rootComponent
 
-        # Create loft feature input
-        loftFeats = rootComp.features.loftFeatures
-        loftInput = loftFeats.createInput(adsk.fusion.FeatureOperations.NewBodyFeatureOperation)
-        loftSectionsObj = loftInput.loftSections
-
         dlg = ui.createFolderDialog()
         dlg.title = 'Open CSV Files'
         #if dlg.showOpen() != adsk.core.DialogResults.DialogOK :
@@ -79,12 +74,6 @@ def run(context):
                 sketch.sketchCurves.sketchFittedSplines.add(points)
             else:
                 ui.messageBox('No valid points', title)  
-            profile1 = sketch.profiles.item(0)
-            loftSectionsObj.add(profile1)
-
-        # LOFT
-        loftInput.isSolid = True
-        loftFeats.add(loftInput)
         
 
 
