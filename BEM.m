@@ -34,7 +34,6 @@ function [Fx, Fy, P] = BEM(beta, Cla, B, c, R, lambda, N, V, foils, r)
     % Initialise variables
     rho = 1.225;
     rHub = 0.025;
-%     dr = (R-rHub)/N;  % No longer used
 
     % Solve blade element momentum for each element (parallel loop)
     parfor i = 1:N
@@ -65,7 +64,7 @@ function [Fx, Fy, P] = BEM(beta, Cla, B, c, R, lambda, N, V, foils, r)
     % Validates result
     if Cp > 0.5926
         disp(['P = ', num2str(P)])
-        error('Cp > 0.5926 !! This is not possible !!')
+        warning('Cp > 0.5926 !! This is not possible !!')
     end
 end
     

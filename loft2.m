@@ -37,7 +37,6 @@ function loft2(chords, twists, foils, dist, R, hub)
     end
 
     % centre of transformation for aerofoils is at quarter chord
-    centre = [0.25 0];
     chord = chords(1); % chord at root in m
     theta = twists(1);
     chords(end+1) = chords(end);
@@ -49,6 +48,7 @@ function loft2(chords, twists, foils, dist, R, hub)
 
     progress = waitbar(0, 'Plotting');
 
+    % For each blade element
     for i = 1:length(z)
 
         p = 0.75*(i/length(z));
@@ -56,7 +56,7 @@ function loft2(chords, twists, foils, dist, R, hub)
         temp = find(dist<=z(i), 1, 'last');
         xc = cross_sections{temp};
 
-        transformed = transform(xc, chord, theta, centre);
+        transformed = transform(xc, chord, theta);
 
         [x, y] = boundary(transformed);
         z_out = z(i)*ones(length(x), 1);
@@ -85,37 +85,30 @@ function loft2(chords, twists, foils, dist, R, hub)
     tempx = tempx;
     tempy = tempy;
     
-    % EXPORT DATA
+    % Export data to .csv
+    try
+        rmdir('Blade', 's')
+    catch
+        disp('Writing blade file')
+    end
     mkdir('Blade')
-    for j = 1:length(z)
-        for i = 1:length(tempx)
-            AA(1:length(tempx), j) = tempz(j, 2);
+    for j = 2:length(z)
+        temp1 = size(tempx);
+        for i = 1:temp1(2)
+            AA(1:length(tempx), i) = tempz(j, 2);
         end
         
         % A specific filename is used in order to be used with the Fusion360 API
         p = 0.75+0.25*i/length(z);
         waitbar(p, progress, ['Writing File: ', sprintf([num2str(1000*(tempz(j, 1))), '_.csv'])])
-        m = [(1000*tempx(j, :))', (1000*tempy(j, :))', (1000*AA(:, j))];
+        m = [(1000*tempx(j, :))', (1000*tempy(j, :))', (1000*AA(j, :)')];
         writematrix(m, sprintf(['Blade/', num2str((1000*tempz(j, 1))), '_.csv']))
-        disp(['Wrote File: ', sprintf(['Blade/', num2str((1000*tempz(j, 1))), '_.csv'])])
     end
     
-    close(progress);
-    title('Visualistion');
-    xlabel('x');
-    ylabel('y');
-    zlabel('z');
-
-    grid ON;
-    view(3)
-    axis equal
-
     diff = length(tempx)-length(tempz);
     for i=length(tempz):length(tempx)
         tempz(:, i)=tempz(:, 1);
     end
-    figure
-    surf(tempx, tempy, tempz)
     
     % Export STL
     surf2stl('blade.stl', tempx, tempy, tempz)

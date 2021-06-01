@@ -21,6 +21,8 @@
 %
 % NOTE; twist angle must be in RADIANS
 %
+% Based on QBlade BEM code (www.q-blade.de)
+%
 
 % Nathanael Jenkins, Usmaan Yaqoob
 % Imperial College London, 2021
@@ -43,6 +45,7 @@ function [Fx, Fy, T] = elem(twist, polars, r, R, tsr, B, chord, hub, V)
     while eta > tol
         count = count+1;
         if count > iterMax
+            % Warning if element fails to converge (disabled)
 %             disp(['Timeout. eta = ', num2str(eta)])
 %             if eta > 2
 %                 warning(['eta = ', num2str(eta), ' | Element may not have converged'])
@@ -51,6 +54,7 @@ function [Fx, Fy, T] = elem(twist, polars, r, R, tsr, B, chord, hub, V)
         end
         
         %% Calculate angles
+
         phi = atan(((1-a)/((1+at)*lambda)));
 
         aoa = phi-twist;
@@ -112,7 +116,6 @@ function [Fx, Fy, T] = elem(twist, polars, r, R, tsr, B, chord, hub, V)
 			a = (18*F-20-3*sqrt(abs(CT*(50-36*F)+12*F*(3*F-4))))/(36*F-50);
         end
 
-%         at = 0.5 * (sqrt(abs(1+(4/(lambda^2))*a*(1-a)))-1);
         at=1/((4*cos(phi)*sin(phi))/(sigma*Ct)-1);
    
         %% Relaxation factor
@@ -131,8 +134,7 @@ function [Fx, Fy, T] = elem(twist, polars, r, R, tsr, B, chord, hub, V)
     end
     
     %% Processing solution
-    W2 = (V*(1-a))^2+(V*lambda*(1+at))^2; % Same as below
-%     W1 = (V*(1-a)/(sin(phi)))^2;        % Sometimes slightly bigger
+    W2 = (V*(1-a))^2+(V*lambda*(1+at))^2;
     Fy = B*Ct*0.5*rho*W2*chord;
     Fx = B*Cn*0.5*rho*W2*chord;
     T = Fy*r;
