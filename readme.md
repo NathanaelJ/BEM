@@ -1,6 +1,5 @@
 
 # HAWT BEM
-## Major update coming soon (June 2021)
 
 Blade Element Method code for horizontal-axis wind turbines (HAWT) in MATLAB
 
