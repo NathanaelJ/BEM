@@ -3,6 +3,10 @@
 
 Blade Element Method code for horizontal-axis wind turbines (HAWT) in MATLAB
 
+## A Word of Warning
+
+This BEM code produces reasonable results, although it may not be perfect. Even if it were a perfect implementation, blade element theory is no substitute for physical testing, as the performance of real-world wind turbines is unlikely to perfectly match theoretical predictions. For example, the sample data provided is designed to generate approximately 30W at 10m/s using this code, but in practise it would not spin, even at 26m/s.
+
 ## Basic Info
 
 The **parallel computing toolbox** and **curve fitting toolbox** must be installed to run successfully
